@@ -17,7 +17,7 @@ public class DepositMoneyUseCaseImpl implements DepositMoneyUseCase {
 
   @Override
   @Transactional
-  public AccountDetailsDto depositMoney(DepositMoneyCommand command) {
+  public AccountDetailsDto execute(DepositMoneyCommand command) {
     var accountId = AccountId.from(command.accountId());
     var account =
         accountRepository

@@ -5,5 +5,5 @@ import com.github.omaru.banking.transactions.api.application.dtos.AccountDetails
 public interface GetAccountDetailsUseCase {
   record GetAccountCommand(String accountId) {}
 
-  AccountDetailsDto getById(GetAccountCommand command);
+  AccountDetailsDto execute(GetAccountCommand command);
 }

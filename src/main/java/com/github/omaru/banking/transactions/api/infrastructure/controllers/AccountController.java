@@ -1,8 +1,10 @@
 package com.github.omaru.banking.transactions.api.infrastructure.controllers;
 
 import com.github.omaru.banking.transactions.api.application.ports.CreateAccountUseCase;
+import com.github.omaru.banking.transactions.api.application.ports.DepositMoneyUseCase;
 import com.github.omaru.banking.transactions.api.infrastructure.dtos.AccountResponse;
 import com.github.omaru.banking.transactions.api.infrastructure.dtos.CreateAccountRequest;
+import com.github.omaru.banking.transactions.api.infrastructure.dtos.DepositRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,12 +12,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/accounts")
@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Accounts", description = "Bank account management")
 public class AccountController {
   private final CreateAccountUseCase createAccountUseCase;
+  private final DepositMoneyUseCase depositMoneyUseCase;
 
   @Operation(
       summary = "Create an account",
@@ -43,7 +44,15 @@ public class AccountController {
   public ResponseEntity<AccountResponse> createAccount(
       @Valid @RequestBody CreateAccountRequest request) {
     AccountResponse response =
-        AccountResponse.from(createAccountUseCase.createAccount(request.toCommand()));
+        AccountResponse.from(createAccountUseCase.execute(request.toCommand()));
+    return ResponseEntity.ok(response);
+  }
+
+  @PostMapping(path = "/{accountId}")
+  public ResponseEntity<AccountResponse> deposit(
+      @PathVariable UUID accountId, @Valid @RequestBody DepositRequest request) {
+    AccountResponse response =
+        AccountResponse.from(depositMoneyUseCase.execute(request.toCommand(accountId)));
     return ResponseEntity.ok(response);
   }
 }

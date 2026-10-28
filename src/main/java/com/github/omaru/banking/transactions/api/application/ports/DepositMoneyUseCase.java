@@ -5,5 +5,5 @@ import com.github.omaru.banking.transactions.api.application.dtos.AccountDetails
 public interface DepositMoneyUseCase {
   record DepositMoneyCommand(String accountId, double amount) {}
 
-  AccountDetailsDto depositMoney(DepositMoneyCommand command);
+  AccountDetailsDto execute(DepositMoneyCommand command);
 }

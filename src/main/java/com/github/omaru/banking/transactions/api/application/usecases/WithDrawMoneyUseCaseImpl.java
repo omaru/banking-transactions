@@ -17,7 +17,7 @@ public class WithDrawMoneyUseCaseImpl implements WithDrawMoneyUseCase {
 
   @Override
   @Transactional
-  public AccountDetailsDto withdrawMoney(WithDrawMoneyCommand command) {
+  public AccountDetailsDto execute(WithDrawMoneyCommand command) {
     var accountId = AccountId.from(command.accountId());
     var account =
         accountRepository

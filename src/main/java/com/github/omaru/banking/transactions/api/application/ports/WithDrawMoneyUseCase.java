@@ -5,5 +5,5 @@ import com.github.omaru.banking.transactions.api.application.dtos.AccountDetails
 public interface WithDrawMoneyUseCase {
   record WithDrawMoneyCommand(String accountId, double amount) {}
 
-  AccountDetailsDto withdrawMoney(WithDrawMoneyCommand command);
+  AccountDetailsDto execute(WithDrawMoneyCommand command);
 }

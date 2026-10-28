@@ -14,7 +14,7 @@ public class GetAccountDetailsUseCaseImpl implements GetAccountDetailsUseCase {
   private final AccountRepository accountRepository;
 
   @Override
-  public AccountDetailsDto getById(GetAccountCommand command) {
+  public AccountDetailsDto execute(GetAccountCommand command) {
     var accountId = AccountId.from(command.accountId());
     var account =
         accountRepository

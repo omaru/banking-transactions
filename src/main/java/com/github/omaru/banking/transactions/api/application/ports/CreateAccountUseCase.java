@@ -6,5 +6,5 @@ import java.math.BigDecimal;
 public interface CreateAccountUseCase {
   record CreateAccountCommand(String customerId, BigDecimal initialBalance) {}
 
-  AccountDetailsDto createAccount(CreateAccountCommand command);
+  AccountDetailsDto execute(CreateAccountCommand command);
 }

@@ -18,7 +18,7 @@ public class CreateAccountUseCaseImpl implements CreateAccountUseCase {
 
   @Override
   @Transactional
-  public AccountDetailsDto createAccount(CreateAccountUseCase.CreateAccountCommand command) {
+  public AccountDetailsDto execute(CreateAccountUseCase.CreateAccountCommand command) {
     var account =
         new Account(
             AccountId.newId(),
