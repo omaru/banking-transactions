@@ -11,13 +11,15 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class GetAccountDetailsUseCaseImpl implements GetAccountDetailsUseCase {
-    private final AccountRepository accountRepository;
+  private final AccountRepository accountRepository;
 
-    @Override
-    public AccountDetailsDto getById(GetAccountCommand command) {
-        var accountId = AccountId.from(command.accountId());
-        var account = accountRepository.findById(accountId).orElseThrow(() -> new AccountNotFoundException(accountId));
-        return AccountDetailsDto.from(account);
-    }
-
+  @Override
+  public AccountDetailsDto getById(GetAccountCommand command) {
+    var accountId = AccountId.from(command.accountId());
+    var account =
+        accountRepository
+            .findById(accountId)
+            .orElseThrow(() -> new AccountNotFoundException(accountId));
+    return AccountDetailsDto.from(account);
+  }
 }

@@ -35,7 +35,7 @@ docker compose -f docs/infrastructure/docker-compose.yml down -v    # also remov
 
 ## 2. Run the application
 
-The database connection is configured in the `dev` profile (`src/main/resources/application-dev.yaml`), so it must be activated:
+The database connection is configured in the `dev` profile (`../src/main/resources/application-dev.yml`), so it must be activated:
 
 ```bash
 ./gradlew bootRun --args='--spring.profiles.active=dev'

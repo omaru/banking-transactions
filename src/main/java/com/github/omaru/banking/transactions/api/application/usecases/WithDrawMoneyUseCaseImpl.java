@@ -13,15 +13,18 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class WithDrawMoneyUseCaseImpl implements WithDrawMoneyUseCase {
-    private final AccountRepository accountRepository;
+  private final AccountRepository accountRepository;
 
-    @Override
-    @Transactional
-    public AccountDetailsDto withdrawMoney(WithDrawMoneyCommand command) {
-        var accountId = AccountId.from(command.accountId());
-        var account = accountRepository.findById(accountId).orElseThrow(() -> new AccountNotFoundException(accountId));
-        account.withdraw(Money.of(command.amount()));
-        accountRepository.save(account);
-        return AccountDetailsDto.from(account);
-    }
+  @Override
+  @Transactional
+  public AccountDetailsDto withdrawMoney(WithDrawMoneyCommand command) {
+    var accountId = AccountId.from(command.accountId());
+    var account =
+        accountRepository
+            .findById(accountId)
+            .orElseThrow(() -> new AccountNotFoundException(accountId));
+    account.withdraw(Money.of(command.amount()));
+    accountRepository.save(account);
+    return AccountDetailsDto.from(account);
+  }
 }
