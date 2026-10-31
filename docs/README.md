@@ -1,5 +1,7 @@
 # Banking Transactions
 
+![Coverage](../.github/badges/jacoco.svg)
+
 A simple project for practicing **hexagonal architecture** (Ports & Adapters) by building a banking transactions API with Spring Boot.
 
 The goal is not the banking domain itself, but to exercise the separation between business logic and technical details (web, database, frameworks), so that the domain does not depend on anything external.

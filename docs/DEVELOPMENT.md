@@ -60,4 +60,4 @@ With the `dev` profile, Hibernate creates/updates the schema automatically (`ddl
 
 > Spotless uses `ratchetFrom 'origin/main'`, so it only checks files changed relative to `origin/main`.
 
-> The coverage report is at `build/reports/jacoco/test/html/index.html`. The `infrastructure/config`, `infrastructure/dtos` and `application/dtos` packages, `*Problem` classes and `BankingTransactionsApiApplication` are excluded from coverage.
+> The coverage report is at `build/reports/jacoco/test/html/index.html`. The `infrastructure/config`, `infrastructure/dtos` and `application/dtos` packages, `*Problem` classes and `BankingTransactionsApiApplication` are excluded from coverage. The README badge shows instruction coverage, while the check requires 80% line coverage, so the two numbers differ.

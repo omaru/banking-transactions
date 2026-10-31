@@ -72,6 +72,7 @@ tasks.named('jacocoTestReport') {
     reports {
         html.required = true
         xml.required = true
+        csv.required = true
     }
     classDirectories.setFrom(files(classDirectories.files.collect {
         fileTree(dir: it, exclude: coverageExclusions)
