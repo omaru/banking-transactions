@@ -33,14 +33,6 @@ Dependencies always point towards the domain: `infrastructure â†’ application â†
 | `Transaction`     | Entity       | A movement made on an account (type, amount, date).                         |
 | `TransactionType` | Enum         | Transaction type: `DEPOSIT` or `WITHDRAW`.                                  |
 
-## Stack
-
-- Java 25
-- Spring Boot 4 (Web MVC, Data JPA, Validation, Actuator)
-- PostgreSQL 16 (via Docker Compose)
-- springdoc-openapi (Swagger UI)
-- Gradle + Spotless
-
 ## Development
 
 Instructions for running the project locally are in [DEVELOPMENT.md](DEVELOPMENT.md).
