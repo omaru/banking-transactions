@@ -2,10 +2,14 @@ package com.github.omaru.banking.transactions.api.infrastructure.controllers;
 
 import com.github.omaru.banking.transactions.api.application.ports.CreateAccountUseCase;
 import com.github.omaru.banking.transactions.api.application.ports.DepositMoneyUseCase;
+import com.github.omaru.banking.transactions.api.application.ports.GetAccountDetailsUseCase;
+import com.github.omaru.banking.transactions.api.application.ports.WithDrawMoneyUseCase;
 import com.github.omaru.banking.transactions.api.infrastructure.dtos.AccountResponse;
 import com.github.omaru.banking.transactions.api.infrastructure.dtos.CreateAccountRequest;
 import com.github.omaru.banking.transactions.api.infrastructure.dtos.DepositRequest;
+import com.github.omaru.banking.transactions.api.infrastructure.dtos.WithDrawRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,6 +28,8 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
   private final CreateAccountUseCase createAccountUseCase;
   private final DepositMoneyUseCase depositMoneyUseCase;
+  private final WithDrawMoneyUseCase withDrawMoneyUseCase;
+  private final GetAccountDetailsUseCase getAccountDetailsUseCase;
 
   @Operation(
       summary = "Create an account",
@@ -48,11 +54,77 @@ public class AccountController {
     return ResponseEntity.ok(response);
   }
 
+  @Operation(
+      summary = "Deposit money",
+      description =
+          "Deposits a positive amount into an existing account"
+              + " and returns the updated account details.")
+  @ApiResponses({
+    @ApiResponse(
+        responseCode = "200",
+        description = "Deposit successfully applied",
+        content = @Content(schema = @Schema(implementation = AccountResponse.class))),
+    @ApiResponse(
+        responseCode = "400",
+        description = "Invalid request: malformed accountId or non-positive amount",
+        content = @Content)
+  })
   @PostMapping(path = "/{accountId}")
   public ResponseEntity<AccountResponse> deposit(
-      @PathVariable UUID accountId, @Valid @RequestBody DepositRequest request) {
+      @Parameter(description = "Unique identifier of the account", required = true) @PathVariable
+          UUID accountId,
+      @Valid @RequestBody DepositRequest request) {
     AccountResponse response =
         AccountResponse.from(depositMoneyUseCase.execute(request.toCommand(accountId)));
+    return ResponseEntity.ok(response);
+  }
+
+  @Operation(
+      summary = "Withdraw money",
+      description =
+          "Withdraws a positive amount from an existing account"
+              + " and returns the updated account details.")
+  @ApiResponses({
+    @ApiResponse(
+        responseCode = "200",
+        description = "Withdrawal successfully applied",
+        content = @Content(schema = @Schema(implementation = AccountResponse.class))),
+    @ApiResponse(
+        responseCode = "400",
+        description = "Invalid request: malformed accountId or non-positive amount",
+        content = @Content)
+  })
+  @PostMapping(path = "/{accountId}/withdraw")
+  public ResponseEntity<AccountResponse> withdraw(
+      @Parameter(description = "Unique identifier of the account", required = true) @PathVariable
+          UUID accountId,
+      @Valid @RequestBody WithDrawRequest request) {
+    AccountResponse response =
+        AccountResponse.from(withDrawMoneyUseCase.execute(request.toCommand(accountId)));
+    return ResponseEntity.ok(response);
+  }
+
+  @Operation(
+      summary = "Get account details",
+      description = "Returns the details of an existing account, including its current balance.")
+  @ApiResponses({
+    @ApiResponse(
+        responseCode = "200",
+        description = "Account details found",
+        content = @Content(schema = @Schema(implementation = AccountResponse.class))),
+    @ApiResponse(
+        responseCode = "400",
+        description = "Invalid request: malformed accountId",
+        content = @Content)
+  })
+  @GetMapping(path = "/{accountId}")
+  public ResponseEntity<AccountResponse> getAccountDetails(
+      @Parameter(description = "Unique identifier of the account", required = true) @PathVariable
+          UUID accountId) {
+    AccountResponse response =
+        AccountResponse.from(
+            getAccountDetailsUseCase.execute(
+                new GetAccountDetailsUseCase.GetAccountCommand(accountId.toString())));
     return ResponseEntity.ok(response);
   }
 }

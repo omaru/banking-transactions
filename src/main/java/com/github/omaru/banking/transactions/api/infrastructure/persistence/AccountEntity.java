@@ -13,6 +13,7 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -44,7 +45,9 @@ public class AccountEntity {
         new Account(
             AccountId.from(this.id), CustomerId.from(this.customerId), Money.from(this.balance));
     account.setTransactions(
-        this.getTransactions().stream().map(TransactionEntity::toDomain).toList());
+        this.getTransactions().stream()
+            .map(TransactionEntity::toDomain)
+            .collect(Collectors.toCollection(ArrayList::new)));
     return account;
   }
 

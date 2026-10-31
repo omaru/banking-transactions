@@ -52,9 +52,12 @@ With the `dev` profile, Hibernate creates/updates the schema automatically (`ddl
 
 ```bash
 ./gradlew build            # compile and run the tests
-./gradlew test             # tests only
+./gradlew test             # tests only (also generates the JaCoCo report)
+./gradlew check            # tests plus the 80% line coverage check
 ./gradlew spotlessCheck    # check code formatting
 ./gradlew spotlessApply    # apply formatting (google-java-format AOSP + license header)
 ```
 
 > Spotless uses `ratchetFrom 'origin/main'`, so it only checks files changed relative to `origin/main`.
+
+> The coverage report is at `build/reports/jacoco/test/html/index.html`. The `infrastructure/config`, `infrastructure/dtos` and `application/dtos` packages, `*Problem` classes and `BankingTransactionsApiApplication` are excluded from coverage.
